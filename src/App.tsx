@@ -20,6 +20,7 @@ import Navbar from './components/Navbar';
 import DevNavbar from './components/DevNavbar';
 import WhyChooseUs from './components/WhyChooseUs';
 import ScaleSection from './components/ScaleSection';
+import TestimonialsSection from './components/TestimonialsSection';
 import { NavigationContext, Page } from './context/NavigationContext';
 
 
@@ -51,6 +52,7 @@ const HomePage: React.FC = () => {
             <Hero onNavigate={navigate} />
             <WhyChooseUs />
             <ScaleSection />
+            <TestimonialsSection />
 
             <section className="py-24 bg-white relative z-20">
                 <div className="max-container">
