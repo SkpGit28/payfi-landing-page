@@ -78,12 +78,13 @@ export default {
         },
       },
       fontFamily: {
-        technical: ["Space Grotesk"],
+        technical: ["DM Sans"],
         interface: ["Inter"],
         sans: ["Inter"],
       },
       letterSpacing: {
         interface: "-0.02em",
+        technical: "-0.04em",
       },
     },
   },
@@ -91,7 +92,7 @@ export default {
     function ({ addBase, theme }) {
       addBase({
         'h1, h2, h3, h4, h5, h6': {
-          letterSpacing: theme('letterSpacing.interface'),
+          letterSpacing: theme('letterSpacing.technical'),
         },
       })
     },

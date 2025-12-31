@@ -18,6 +18,8 @@ import HeroVisual from './components/HeroVisual';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import DevNavbar from './components/DevNavbar';
+import WhyChooseUs from './components/WhyChooseUs';
+import ScaleSection from './components/ScaleSection';
 import { NavigationContext, Page } from './context/NavigationContext';
 
 
@@ -47,6 +49,8 @@ const HomePage: React.FC = () => {
     return (
         <div className="font-interface text-secondary-base antialiased">
             <Hero onNavigate={navigate} />
+            <WhyChooseUs />
+            <ScaleSection />
 
             <section className="py-24 bg-white relative z-20">
                 <div className="max-container">
@@ -95,7 +99,7 @@ const App: React.FC = () => {
     return (
         <NavigationContext.Provider value={{ navigate, currentPage }}>
             <div className="min-h-screen flex flex-col">
-                {currentPage === 'developers' ? <DevNavbar /> : <Navbar activeRoute={currentPage} />}
+                {currentPage === 'documentations' ? <DevNavbar /> : <Navbar activeRoute={currentPage} />}
 
                 <main className="flex-grow">
                     <AnimatePresence mode='wait'>
@@ -111,7 +115,7 @@ const App: React.FC = () => {
                     </AnimatePresence>
                 </main>
 
-                {currentPage !== 'developers' && <Footer />}
+                {currentPage !== 'documentations' && <Footer />}
             </div>
         </NavigationContext.Provider>
     );

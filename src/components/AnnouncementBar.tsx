@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight } from '@phosphor-icons/react';
 
 const OFFERS = [
     "Now live: Apple Pay on PayGlocal's International Payment Gateway",
@@ -30,8 +31,13 @@ const AnnouncementBar: React.FC = () => {
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                         className="text-white font-interface text-xs md:text-sm font-medium text-center"
                     >
-                        <span className="mr-2">💰</span>
-                        {OFFERS[currentIndex]}
+                        <div className="flex items-center justify-center gap-2">
+                            <span className="mr-1">💰</span>
+                            {OFFERS[currentIndex]}
+                            <div className="ml-2 p-1 rounded-full bg-white/10 group-hover:bg-page-light-alt group-hover:text-secondary-base transition-all duration-300">
+                                <ArrowUpRight className="w-3 h-3" weight="bold" />
+                            </div>
+                        </div>
                     </motion.div>
                 </AnimatePresence>
             </div>
