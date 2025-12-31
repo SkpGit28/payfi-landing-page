@@ -19,8 +19,13 @@ export default {
           light: "#2A4B63",
           dark: "#0D1F2C",
         },
+        ink: {
+          base: "#020617",
+          light: "#0F172A",
+        },
         page: {
           light: "#F5F8FA",
+          "light-alt": "#F2F5F8",
           dark: "#0B1A24",
         },
         card: {
@@ -73,9 +78,9 @@ export default {
         },
       },
       fontFamily: {
-        technical: ["Space Grotesk", "sans-serif"],
-        interface: ["Geist", "sans-serif"],
-        sans: ["Geist", "sans-serif"],
+        technical: ["Space Grotesk"],
+        interface: ["Inter"],
+        sans: ["Inter"],
       },
       letterSpacing: {
         interface: "-0.02em",
@@ -85,15 +90,9 @@ export default {
   plugins: [
     function ({ addBase, theme }) {
       addBase({
-        '.font-interface': {
+        'h1, h2, h3, h4, h5, h6': {
           letterSpacing: theme('letterSpacing.interface'),
         },
-        '.font-sans': {
-          letterSpacing: theme('letterSpacing.interface'),
-        },
-        'body': {
-          letterSpacing: theme('letterSpacing.interface'),
-        }
       })
     },
   ],

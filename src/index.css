@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
-@import "@fontsource/geist-sans";
-@import "@fontsource/geist-sans/500.css";
-@import "@fontsource/geist-sans/700.css";
-@import "@fontsource/geist-mono";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .max-container {
+    @apply max-w-7xl mx-auto px-8 md:px-12 w-full;
+  }
+}
 
 @layer base {
   body {
@@ -25,11 +27,29 @@
   }
 }
 
-/* Glassmorphism Utilities */
+/* Premium UI Utilities */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(30, 58, 95, 0.05);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.radial-dark-bg {
+  background: radial-gradient(circle at 50% 50%, #0F172A 0%, #050A14 100%);
+}
+
+.mesh-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(22, 108, 143, 0.15) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(22, 108, 143, 0.3);
 }
 
 /* Developer Portal Scrollbar */
