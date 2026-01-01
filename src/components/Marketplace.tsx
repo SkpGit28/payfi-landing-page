@@ -15,7 +15,7 @@ const Marketplace = () => {
             <div className="mb-6">
                 <div className="flex justify-between items-center mb-3">
                     <label className="font-interface text-xs font-bold text-secondary-light">Your Commission</label>
-                    <span className="font-technical font-bold text-brand-primary">{commission}%</span>
+                    <span className="font-technical font-bold text-violet-500">{commission}%</span>
                 </div>
                 <input
                     type="range"
@@ -23,7 +23,7 @@ const Marketplace = () => {
                     max="50"
                     value={commission}
                     onChange={(e) => setCommission(Number(e.target.value))}
-                    className="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                    className="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer accent-violet-500"
                 />
             </div>
 
@@ -37,7 +37,7 @@ const Marketplace = () => {
                     <motion.div
                         initial={false}
                         animate={{ flex: commission }}
-                        className="bg-orange-500 rounded-lg flex items-center justify-center text-white font-technical font-bold shadow-sm"
+                        className="bg-violet-500 rounded-lg flex items-center justify-center text-white font-technical font-bold shadow-sm"
                     >
                         ₹{platformFee}
                     </motion.div>

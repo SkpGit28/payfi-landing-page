@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from '@phosphor-icons/react';
 
 const OFFERS = [
-    "Now live: Apple Pay on PayGlocal's International Payment Gateway",
+    "Now live: Payfi PG on App Store and Play Store",
     "Get 0% processing fees for your first $10,000",
     "New: Instant Settlements now available for all merchants",
     "Join 5,000+ businesses growing with Payfi"

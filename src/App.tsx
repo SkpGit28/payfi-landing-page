@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+// Main App Component
+import React, { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     CaretDown,
@@ -14,70 +15,45 @@ import {
     Cube,
     Users
 } from '@phosphor-icons/react';
-import HeroVisual from './components/HeroVisual';
-import Hero from './components/Hero';
+import HeroSection from './components/HeroSection';
 import Navbar from './components/Navbar';
-import DevNavbar from './components/DevNavbar';
 import WhyChooseUs from './components/WhyChooseUs';
 import ScaleSection from './components/ScaleSection';
 import TestimonialsSection from './components/TestimonialsSection';
+import FAQSection from './components/FAQSection';
+import PreFooter from './components/PreFooter';
+import Footer from './components/Footer';
 import { NavigationContext, Page } from './context/NavigationContext';
+import DeveloperSection from './components/DeveloperSection';
+import DocsPage from './pages/DocsPage';
+import {
+  INTEGRATION_GUIDES,
+  API_ENDPOINTS,
+  NO_CODE_GUIDES,
+  CODE_SNIPPETS,
+} from './components/Docs/PAYFI_DOCS_DATA';
 
-
-const Footer: React.FC = () => (
-    <footer className="bg-navy text-white py-16">
-        <div className="max-container flex flex-col md:flex-row justify-between gap-12 border-b border-white/10 pb-12 mb-8">
-            <div>
-                <div className="font-technical font-bold text-2xl mb-4">Payfi</div>
-                <p className="font-interface font-normal text-sm leading-[20px] text-neutral-400 max-w-xs">The financial backbone for the internet economy.</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-12 text-sm text-neutral-400">
-                <div className="flex flex-col gap-3 font-interface"><span className="text-white font-bold">Product</span><a href="#" className="hover:text-orange">Payment Gateway</a><a href="#" className="hover:text-orange">Payment Links</a></div>
-                <div className="flex flex-col gap-3 font-interface"><span className="text-white font-bold">Company</span><a href="#" className="hover:text-orange">About Us</a><a href="#" className="hover:text-orange">Careers</a></div>
-                <div className="flex flex-col gap-3 font-interface"><span className="text-white font-bold">Legal</span><a href="#" className="hover:text-orange">Privacy</a><a href="#" className="hover:text-orange">Terms</a></div>
-            </div>
-        </div>
-        <div className="max-container text-sm text-neutral-500 flex justify-between font-interface"><p>© 2025 Payfi Fintech Pvt Ltd.</p><div className="flex gap-4"><span>PCI DSS Level 1</span><span>ISO 27001</span></div></div>
-    </footer>
-);
+import Lenis from 'lenis';
+import { useScrollAnimations } from './hooks/useScrollAnimations';
 
 // --- PAGES (Components) ---
 
 const HomePage: React.FC = () => {
     const context = useContext(NavigationContext);
+    const { containerRef } = useScrollAnimations();
+
     if (!context) return null;
     const { navigate } = context;
+
     return (
-        <div className="font-interface text-secondary-base antialiased">
-            <Hero onNavigate={navigate} />
+        <div ref={containerRef} className="font-interface text-secondary-base antialiased">
+            <HeroSection onNavigate={navigate} />
             <WhyChooseUs />
             <ScaleSection />
+            <DeveloperSection />
             <TestimonialsSection />
-
-            <section className="py-24 bg-white relative z-20">
-                <div className="max-container">
-                    <div className="text-center mb-16">
-                        <h2 className="font-technical font-bold text-3xl leading-[36px] text-navy">Built for every scale</h2>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div onClick={() => navigate('ecommerce')} className="p-8 border border-neutral-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group">
-                            <div className="w-12 h-12 bg-orange-light text-orange rounded-lg flex items-center justify-center mb-4"><ShoppingBag className="w-6 h-6" weight="bold" /></div>
-                            <h3 className="font-interface font-bold text-xl leading-[28px] mb-2 group-hover:text-orange transition-colors">For E-Commerce</h3>
-                            <p className="font-interface font-normal text-sm leading-[20px] text-neutral-400">Reduce cart abandonment and handle high volume sales effortlessly.</p>
-                        </div>
-                        <div onClick={() => navigate('saas')} className="p-8 border border-neutral-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group">
-                            <div className="w-12 h-12 bg-teal-light text-teal rounded-lg flex items-center justify-center mb-4"><Stack className="w-6 h-6" weight="bold" /></div>
-                            <h3 className="font-interface font-bold text-xl leading-[28px] mb-2 group-hover:text-teal transition-colors">For SaaS</h3>
-                            <p className="font-interface font-normal text-sm leading-[20px] text-neutral-400">Manage subscriptions and recurring billing with ease.</p>
-                        </div>
-                        <div onClick={() => navigate('marketplaces')} className="p-8 border border-neutral-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group">
-                            <div className="w-12 h-12 bg-purple-light text-purple rounded-lg flex items-center justify-center mb-4"><Users className="w-6 h-6" weight="bold" /></div>
-                            <h3 className="font-interface font-bold text-xl leading-[28px] mb-2 group-hover:text-purple transition-colors">For Marketplaces</h3>
-                            <p className="font-interface font-normal text-sm leading-[20px] text-neutral-400">Onboard sellers and automate split payments globally.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <FAQSection />
+            <PreFooter />
         </div>
     );
 };
@@ -85,9 +61,70 @@ const HomePage: React.FC = () => {
 const App: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<Page>('home');
 
+    useLayoutEffect(() => {
+        // 1. Disable native restoration immediately
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
+        // 2. Aggressive reset function
+        const forceScrollTop = () => {
+            window.scrollTo(0, 0);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        };
+
+        // 3. Fire immediately and repeatedly to fight browser restoration
+        forceScrollTop();
+
+        const timers: NodeJS.Timeout[] = [];
+        [10, 50, 100, 200, 500].forEach(delay => {
+            timers.push(setTimeout(forceScrollTop, delay));
+        });
+
+        // 4. Initialize Lenis ONLY if not on documentations page
+        let lenis: Lenis | null = null;
+
+        if (currentPage !== 'documentations') {
+            lenis = new Lenis({
+                duration: 2.0,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                orientation: 'vertical',
+                gestureOrientation: 'vertical',
+                smoothWheel: true,
+                wheelMultiplier: 0.8,
+                touchMultiplier: 1.5,
+            });
+
+            // 5. Force Lenis to top
+            lenis.scrollTo(0, { immediate: true });
+
+            function raf(time: number) {
+                lenis?.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+        }
+
+        // 6. Pre-unload reset (Belt and Suspenders)
+        const handleBeforeUnload = () => {
+            forceScrollTop();
+            window.history.scrollRestoration = 'manual';
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            lenis?.destroy();
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            timers.forEach(clearTimeout);
+        };
+    }, [currentPage]);
+
     const renderPage = () => {
         switch (currentPage) {
             case 'home': return <HomePage />;
+            case 'documentations': return <DocsPage />;
             // Add other pages here
             default: return <HomePage />;
         }
@@ -101,7 +138,7 @@ const App: React.FC = () => {
     return (
         <NavigationContext.Provider value={{ navigate, currentPage }}>
             <div className="min-h-screen flex flex-col">
-                {currentPage === 'documentations' ? <DevNavbar /> : <Navbar activeRoute={currentPage} />}
+                {currentPage !== 'documentations' && <Navbar activeRoute={currentPage} />}
 
                 <main className="flex-grow">
                     <AnimatePresence mode='wait'>
@@ -117,7 +154,12 @@ const App: React.FC = () => {
                     </AnimatePresence>
                 </main>
 
-                {currentPage !== 'documentations' && <Footer />}
+                {currentPage !== 'documentations' && (
+                    <>
+                        <div className="w-full border-t border-dashed border-white/10 bg-secondary-base" />
+                        <Footer />
+                    </>
+                )}
             </div>
         </NavigationContext.Provider>
     );

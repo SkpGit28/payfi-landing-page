@@ -20,13 +20,13 @@ const EcommerceROI = () => {
                     step="50000"
                     value={revenue}
                     onChange={(e) => setRevenue(Number(e.target.value))}
-                    className="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer accent-green-500"
+                    className="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
             </div>
 
-            <div className="bg-green-50 rounded-xl p-4 border border-green-100">
+            <div className="bg-emerald-500/5 rounded-xl p-4 border border-emerald-500/20">
                 <p className="font-interface text-sm text-secondary-light mb-1">Recovered Revenue with Payfi</p>
-                <p className="font-technical font-bold text-3xl text-green-600">+₹{recovered.toLocaleString()}</p>
+                <p className="font-technical font-bold text-3xl text-emerald-500">+₹{recovered.toLocaleString()}</p>
             </div>
         </div>
     );
