@@ -1,169 +1,184 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SubscriptionBuilder from './SubscriptionBuilder';
+import EcommerceROI from './EcommerceROI';
+import Services from './Services';
+import Marketplace from './Marketplace';
 
-type CategoryKey = 'startups' | 'enterprises' | 'ecommerce' | 'marketplace';
+type TabKey = 'saas' | 'services' | 'ecommerce' | 'marketplace';
 
-interface CategoryContent {
-    headline: string;
-    body: string;
+interface TabContent {
+    id: TabKey;
+    label: string;
+    heading: string;
+    description: string;
     features: string[];
+    visualColor: string;
+    containerColor: string;
+    ctaText: string;
 }
 
 const ScaleSection: React.FC = () => {
-    const [activeCategory, setActiveCategory] = useState<CategoryKey>('startups');
+    const [activeTab, setActiveTab] = useState<TabKey>('saas');
 
-    const categories: Record<CategoryKey, CategoryContent> = {
-        startups: {
-            headline: "Build for every scale",
-            body: "Whether you're processing your first transaction or handling thousands daily, Payfi provides the infrastructure to grow without limits. Quick integration and zero maintenance to get you moving fast.",
-            features: [
-                "Go live in 2 hours",
-                "Zero setup fees",
-                "Auto-scaling infrastructure",
-                "24/7 support"
-            ]
+    const tabs: TabContent[] = [
+        {
+            id: 'saas',
+            label: 'SaaS',
+            heading: 'Subscriptions Made Simple',
+            description: 'Automate recurring billing, manage churn, and scale your subscription business globally.',
+            features: ['Recurring billing', 'Churn management'],
+            visualColor: 'bg-blue-500',
+            containerColor: 'bg-blue-50/50',
+            ctaText: 'Start Building Now'
         },
-        enterprises: {
-            headline: "Enterprise-grade infrastructure",
-            body: "Our platform is engineered for high availability and peak performance. Custom workflows, advanced security, and dedicated support for your mission-critical operations.",
-            features: [
-                "99.99% uptime SLA",
-                "Custom integrations",
-                "Dedicated account manager",
-                "Advanced fraud protection"
-            ]
+        {
+            id: 'services',
+            label: 'Services',
+            heading: 'Streamline Your Operations',
+            description: 'From invoicing to payments, manage your service business with a unified financial stack.',
+            features: ['Automated invoicing', 'Client management'],
+            visualColor: 'bg-purple-500',
+            containerColor: 'bg-purple-50/50',
+            ctaText: 'Contact Sales'
         },
-        ecommerce: {
-            headline: "Optimized for online stores",
-            body: "Reduce cart abandonment and increase conversions with our seamless checkout experience. One-click checkouts, cart recovery, and instant refunds keep your customers happy.",
-            features: [
-                "One-click checkout",
-                "Cart abandonment recovery",
-                "Instant refunds",
-                "Multiple payment methods"
-            ]
+        {
+            id: 'ecommerce',
+            label: 'E-commerce',
+            heading: 'Global payments made local',
+            description: 'Accept payments from anywhere in the world with local currency support and smart routing.',
+            features: ['Global payments', 'Fraud protection'],
+            visualColor: 'bg-green-500',
+            containerColor: 'bg-green-50/50',
+            ctaText: 'View Documentation'
         },
-        marketplace: {
-            headline: "Built for multi-vendor platforms",
-            body: "Manage complex payment flows with ease. Split payments automatically, provide vendor dashboards, and handle automated settlements between multiple parties.",
-            features: [
-                "Automatic payment splits",
-                "Vendor dashboards",
-                "Automated settlements",
-                "Commission management"
-            ]
+        {
+            id: 'marketplace',
+            label: 'Marketplace',
+            heading: 'Power your platform',
+            description: 'Automate onboarding, split payments, and manage payouts for your sellers effortlessly.',
+            features: ['Split payments', 'Automated onboarding'],
+            visualColor: 'bg-orange-500',
+            containerColor: 'bg-orange-50/50',
+            ctaText: 'Explore Platform'
         }
-    };
-
-    const pills: { key: CategoryKey; label: string }[] = [
-        { key: 'startups', label: 'Startups' },
-        { key: 'enterprises', label: 'Enterprises' },
-        { key: 'ecommerce', label: 'E-commerce' },
-        { key: 'marketplace', label: 'Marketplace' }
     ];
 
-    const activeContent = categories[activeCategory];
+    const activeContent = tabs.find(t => t.id === activeTab) || tabs[0];
 
     return (
-        <section className="py-24 bg-page-light-alt overflow-hidden">
+        <section className="py-24 bg-white overflow-hidden">
             <div className="max-container">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-12"
-                >
-                    <span className="font-interface text-xs font-bold uppercase tracking-[0.2em] text-brand-primary mb-4 block">
-                        Scale with Payfi
-                    </span>
-                </motion.div>
+                <div className="grid lg:grid-cols-2 gap-16 items-stretch">
+                    {/* Left Column: Navigation & Content */}
+                    <div className="flex flex-col justify-center">
+                        <span className="font-interface text-xs font-bold uppercase tracking-[0.2em] text-brand-primary mb-6 block">
+                            Scale with Payfi
+                        </span>
 
-                {/* Pill Navigation */}
-                <div className="flex flex-wrap gap-3 mb-16">
-                    {pills.map((pill) => (
-                        <button
-                            key={pill.key}
-                            onClick={() => setActiveCategory(pill.key)}
-                            className={`px-6 py-3 rounded-full font-interface font-semibold text-sm transition-all duration-300 ${activeCategory === pill.key
-                                    ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/30'
-                                    : 'border-2 border-neutral-200 text-secondary-base hover:border-brand-primary/50 hover:bg-brand-primary/5'
-                                }`}
-                        >
-                            {pill.label}
-                        </button>
-                    ))}
-                </div>
+                        {/* Pill Navigation */}
+                        <div className="flex flex-wrap gap-3 mb-4">
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`px-5 py-2.5 rounded-full text-sm font-bold font-interface transition-all duration-300 border ${activeTab === tab.id
+                                        ? 'bg-secondary-base text-white border-secondary-base shadow-md shadow-secondary-base/20'
+                                        : 'bg-white text-secondary-light border-neutral-200 hover:border-secondary-base/50 hover:text-secondary-base'
+                                        }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
 
-                {/* Content Grid */}
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    {/* Left: Dynamic Content */}
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeCategory}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                        >
-                            <h2 className="font-technical font-bold text-4xl md:text-5xl text-secondary-base mb-6 leading-tight">
-                                {activeContent.headline}
-                            </h2>
-                            <p className="font-interface text-secondary-light/80 text-lg leading-relaxed mb-8 max-w-xl">
-                                {activeContent.body}
-                            </p>
-                            <div className="space-y-3">
-                                {activeContent.features.map((feature, index) => (
-                                    <motion.div
-                                        key={index}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.3, delay: 0.1 + (index * 0.05) }}
-                                        className="flex items-center gap-3"
+                        {/* Divider */}
+                        <div className="w-full h-px bg-neutral-200/60 my-6" />
+
+                        {/* Dynamic Content */}
+                        <div className="relative min-h-[280px]">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeTab}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                >
+                                    <h3 className="font-technical font-bold text-3xl md:text-4xl text-secondary-base mb-6">
+                                        {activeContent.heading}
+                                    </h3>
+                                    <p className="font-interface text-secondary-light/80 text-lg leading-relaxed mb-8 max-w-xl">
+                                        {activeContent.description}
+                                    </p>
+                                    <div className="space-y-4 mb-8">
+                                        {activeContent.features.map((feature, idx) => (
+                                            <div key={idx} className="flex items-center gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                </div>
+                                                <span className="font-interface font-medium text-secondary-base">
+                                                    {feature}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Contextual CTA */}
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="px-8 py-3 bg-brand-primary text-white rounded-full font-interface font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
                                     >
-                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
-                                        <span className="font-interface text-secondary-light/90 font-medium">
-                                            {feature}
-                                        </span>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </motion.div>
-                    </AnimatePresence>
+                                        {activeContent.ctaText}
+                                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </motion.button>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </div>
 
-                    {/* Right: Visual Content */}
+                    {/* Right Column: Dynamic Visual */}
                     <AnimatePresence mode="wait">
                         <motion.div
-                            key={activeCategory}
-                            initial={{ opacity: 0, x: 20 }}
+                            key={activeTab}
+                            initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 20 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                            className="relative"
+                            exit={{ opacity: 0, x: -50 }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            className={`relative w-full h-[520px] rounded-[32px] p-8 md:p-12 ${activeContent.containerColor} border border-neutral-200/60 shadow-sm overflow-hidden flex flex-col items-center justify-center`}
                         >
-                            <div className="aspect-square bg-gradient-to-br from-brand-primary/10 to-transparent rounded-full absolute -inset-10 blur-3xl" />
-                            <div className="relative bg-white border border-neutral-200/60 rounded-[32px] p-8 shadow-xl">
-                                {/* Visual representation */}
-                                <div className="space-y-6">
-                                    {activeContent.features.map((feature, i) => (
-                                        <div key={i} className="space-y-2">
-                                            <div className="flex justify-between text-xs font-interface font-bold text-secondary-light/40 uppercase tracking-wider">
-                                                <span>{feature}</span>
-                                                <span>{85 + i * 3}%</span>
-                                            </div>
-                                            <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
-                                                <motion.div
-                                                    initial={{ width: 0 }}
-                                                    animate={{ width: `${85 + i * 3}%` }}
-                                                    transition={{ duration: 0.8, delay: 0.2 + (i * 0.1) }}
-                                                    className="h-full bg-brand-primary rounded-full"
-                                                />
-                                            </div>
+                            {/* Inner Graphic Container (White BG) */}
+                            <div className={`relative z-10 w-full max-w-md ${activeTab === 'saas' ? '' : 'bg-white rounded-2xl shadow-sm p-8'}`}>
+                                {activeTab === 'ecommerce' ? (
+                                    <EcommerceROI />
+                                ) : activeTab === 'saas' ? (
+                                    <SubscriptionBuilder />
+                                ) : activeTab === 'services' ? (
+                                    <Services />
+                                ) : activeTab === 'marketplace' ? (
+                                    <Marketplace />
+                                ) : (
+                                    <div className="flex flex-col items-center text-center">
+                                        <div className={`w-24 h-24 mb-6 rounded-2xl ${activeContent.visualColor} flex items-center justify-center text-white shadow-lg`}>
+                                            <span className="font-technical font-bold text-4xl">
+                                                {activeContent.label[0]}
+                                            </span>
                                         </div>
-                                    ))}
-                                </div>
+                                        <div className="w-full space-y-3">
+                                            <div className="h-3 w-3/4 bg-neutral-100 rounded-full mx-auto" />
+                                            <div className="h-3 w-1/2 bg-neutral-100 rounded-full mx-auto" />
+                                        </div>
+                                    </div>
+                                )}
                             </div>
+
+                            {/* Background Decoration */}
+                            <div className={`absolute inset-0 ${activeContent.visualColor} opacity-[0.05] pointer-events-none`} />
                         </motion.div>
                     </AnimatePresence>
                 </div>
